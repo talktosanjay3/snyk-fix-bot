@@ -92,10 +92,10 @@ const Index = () => {
   const lowIssues = issues.filter(issue => issue.severity === 'low').length;
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-br from-white via-secondary/10 to-accent/20">
       <SecurityHeader />
       
-      <main className="container mx-auto px-6 py-8 space-y-8">
+      <main className="container mx-auto px-8 py-12 space-y-12">
         <AssetInfo 
           assetId="AST-2024-001" 
           applicationName="Customer Portal Web App"

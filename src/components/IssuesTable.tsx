@@ -97,17 +97,18 @@ export const IssuesTable = ({ issues, onAIRemediation }: IssuesTableProps) => {
     : issues.filter(issue => issue.severity === filter);
 
   return (
-    <Card className="bg-gradient-card border-border/50 shadow-card">
-      <CardHeader>
+    <Card className="bg-white/90 backdrop-blur-sm border-border/20 shadow-lg rounded-2xl">
+      <CardHeader className="border-b border-border/10 bg-gradient-to-r from-white to-secondary/10">
         <div className="flex justify-between items-center">
-          <CardTitle className="text-xl font-semibold text-foreground">
+          <CardTitle className="text-2xl font-bold text-foreground tracking-tight">
             Security Issues ({filteredIssues.length})
           </CardTitle>
-          <div className="flex gap-2">
+          <div className="flex gap-3">
             <Button
               variant={filter === 'all' ? 'default' : 'outline'}
               size="sm"
               onClick={() => setFilter('all')}
+              className="rounded-xl font-medium"
             >
               All
             </Button>
@@ -115,6 +116,7 @@ export const IssuesTable = ({ issues, onAIRemediation }: IssuesTableProps) => {
               variant={filter === 'critical' ? 'critical' : 'outline'}
               size="sm"
               onClick={() => setFilter('critical')}
+              className="rounded-xl font-medium"
             >
               Critical
             </Button>
@@ -122,6 +124,7 @@ export const IssuesTable = ({ issues, onAIRemediation }: IssuesTableProps) => {
               variant={filter === 'high' ? 'high' : 'outline'}
               size="sm"
               onClick={() => setFilter('high')}
+              className="rounded-xl font-medium"
             >
               High
             </Button>
@@ -129,6 +132,7 @@ export const IssuesTable = ({ issues, onAIRemediation }: IssuesTableProps) => {
               variant={filter === 'medium' ? 'medium' : 'outline'}
               size="sm"
               onClick={() => setFilter('medium')}
+              className="rounded-xl font-medium"
             >
               Medium
             </Button>
@@ -136,57 +140,58 @@ export const IssuesTable = ({ issues, onAIRemediation }: IssuesTableProps) => {
               variant={filter === 'low' ? 'low' : 'outline'}
               size="sm"
               onClick={() => setFilter('low')}
+              className="rounded-xl font-medium"
             >
               Low
             </Button>
           </div>
         </div>
       </CardHeader>
-      <CardContent>
-        <div className="space-y-2">
-          {filteredIssues.map((issue) => (
-            <div key={issue.id} className="border border-border/50 rounded-lg overflow-hidden">
+      <CardContent className="p-0">
+        <div className="space-y-0">
+          {filteredIssues.map((issue, index) => (
+            <div key={issue.id} className={`border-b border-border/10 last:border-0 ${index % 2 === 0 ? 'bg-white/50' : 'bg-secondary/20'}`}>
               <div 
-                className="p-4 hover:bg-muted/20 cursor-pointer transition-colors"
+                className="p-6 hover:bg-secondary/30 cursor-pointer transition-all duration-200"
                 onClick={() => toggleExpanded(issue.id)}
               >
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-4 flex-1">
-                    <div className="flex items-center space-x-2">
+                  <div className="flex items-center space-x-6 flex-1">
+                    <div className="flex items-center space-x-3">
                       {expandedIssues.has(issue.id) ? (
-                        <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                        <ChevronDown className="h-5 w-5 text-muted-foreground" />
                       ) : (
-                        <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                        <ChevronRight className="h-5 w-5 text-muted-foreground" />
                       )}
                       {getSeverityIcon(issue.severity)}
                     </div>
                     
                     <div className="flex-1">
-                      <div className="flex items-center space-x-3">
-                        <span className="font-medium text-foreground">{issue.title}</span>
-                        <Badge variant="outline" className="text-xs">
+                      <div className="flex items-center space-x-4">
+                        <span className="font-semibold text-foreground text-lg">{issue.title}</span>
+                        <Badge variant="outline" className="text-xs font-mono bg-secondary/50">
                           {issue.id}
                         </Badge>
-                        <Badge variant="secondary" className="text-xs">
+                        <Badge variant="secondary" className="text-xs font-medium">
                           {issue.type}
                         </Badge>
                       </div>
                     </div>
                     
-                    <div className="flex items-center space-x-3">
+                    <div className="flex items-center space-x-4">
                       <Badge 
                         className={`${
                           issue.severity === 'critical' ? 'bg-critical hover:bg-critical/80' :
                           issue.severity === 'high' ? 'bg-high hover:bg-high/80' :
                           issue.severity === 'medium' ? 'bg-medium hover:bg-medium/80' :
                           issue.severity === 'low' ? 'bg-low hover:bg-low/80' : ''
-                        } text-white border-0`}
+                        } text-white border-0 px-3 py-1 font-semibold rounded-xl`}
                       >
                         {issue.severity.toUpperCase()}
                       </Badge>
-                      <div className="flex items-center space-x-1">
+                      <div className="flex items-center space-x-2">
                         {getStatusIcon(issue.status)}
-                        <span className="text-sm capitalize font-medium">
+                        <span className="text-sm capitalize font-semibold">
                           {issue.status}
                         </span>
                       </div>
@@ -196,56 +201,56 @@ export const IssuesTable = ({ issues, onAIRemediation }: IssuesTableProps) => {
               </div>
               
               {expandedIssues.has(issue.id) && (
-                <div className="border-t border-border/50 p-4 bg-muted/10">
-                  <div className="space-y-4">
+                <div className="border-t border-border/10 p-6 bg-gradient-to-r from-secondary/10 to-white">
+                  <div className="space-y-6">
                     <div>
-                      <h4 className="font-medium text-foreground mb-2">Description</h4>
-                      <p className="text-sm text-muted-foreground">{issue.description}</p>
+                      <h4 className="font-semibold text-foreground mb-3 text-lg">Description</h4>
+                      <p className="text-muted-foreground leading-relaxed">{issue.description}</p>
                     </div>
                     
                     {issue.package && (
-                      <div className="grid grid-cols-2 gap-4">
+                      <div className="grid grid-cols-2 gap-6">
                         <div>
-                          <h4 className="font-medium text-foreground mb-1">Package</h4>
-                          <p className="text-sm text-muted-foreground">{issue.package}</p>
+                          <h4 className="font-semibold text-foreground mb-2">Package</h4>
+                          <p className="text-muted-foreground font-mono bg-secondary/30 px-3 py-2 rounded-lg">{issue.package}</p>
                         </div>
                         <div>
-                          <h4 className="font-medium text-foreground mb-1">Current Version</h4>
-                          <p className="text-sm text-muted-foreground">{issue.version}</p>
+                          <h4 className="font-semibold text-foreground mb-2">Current Version</h4>
+                          <p className="text-muted-foreground font-mono bg-secondary/30 px-3 py-2 rounded-lg">{issue.version}</p>
                         </div>
                       </div>
                     )}
                     
                     {issue.cve && (
                       <div>
-                        <h4 className="font-medium text-foreground mb-1">CVE</h4>
-                        <p className="text-sm text-muted-foreground">{issue.cve}</p>
+                        <h4 className="font-semibold text-foreground mb-2">CVE</h4>
+                        <p className="text-muted-foreground font-mono bg-secondary/30 px-3 py-2 rounded-lg inline-block">{issue.cve}</p>
                       </div>
                     )}
                     
                     {issue.remediation && (
                       <div>
-                        <h4 className="font-medium text-foreground mb-2">Remediation Applied</h4>
-                        <div className="bg-resolved/10 border border-resolved/20 rounded-lg p-3">
-                          <p className="text-sm text-foreground">{issue.remediation}</p>
+                        <h4 className="font-semibold text-foreground mb-3">Remediation Applied</h4>
+                        <div className="bg-resolved/10 border border-resolved/20 rounded-xl p-4">
+                          <p className="text-foreground leading-relaxed">{issue.remediation}</p>
                         </div>
                       </div>
                     )}
                     
                     {issue.status === 'unresolved' && (
-                      <div className="pt-4 border-t border-border/30">
-                        <h4 className="font-medium text-foreground mb-3">AI Remediation Request</h4>
-                        <div className="space-y-3">
+                      <div className="pt-6 border-t border-border/20">
+                        <h4 className="font-semibold text-foreground mb-4 text-lg">AI Remediation Request</h4>
+                        <div className="space-y-4">
                           <Textarea
                             placeholder="Describe the remediation action you'd like the AI to perform..."
                             value={userInputs[issue.id] || ''}
                             onChange={(e) => handleUserInputChange(issue.id, e.target.value)}
-                            className="min-h-[80px]"
+                            className="min-h-[100px] rounded-xl border-border/30 focus:border-primary/50 bg-white/80"
                           />
                           <Button 
                             onClick={() => handleAISubmit(issue.id)}
                             disabled={!userInputs[issue.id]?.trim()}
-                            className="bg-primary hover:bg-primary/80"
+                            className="bg-primary hover:bg-primary/80 rounded-xl px-6 py-3 font-semibold"
                           >
                             <Send className="h-4 w-4 mr-2" />
                             Request AI Remediation

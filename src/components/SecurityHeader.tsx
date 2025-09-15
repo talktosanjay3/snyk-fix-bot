@@ -3,9 +3,9 @@ import securityBanner from "@/assets/security-banner.jpg";
 
 export const SecurityHeader = () => {
   return (
-    <header className="relative overflow-hidden bg-gradient-security border-b border-border">
+    <header className="relative overflow-hidden bg-gradient-to-r from-white to-secondary/30 border-b border-border/20 backdrop-blur-sm">
       <div 
-        className="absolute inset-0 opacity-20"
+        className="absolute inset-0 opacity-5"
         style={{
           backgroundImage: `url(${securityBanner})`,
           backgroundSize: 'cover',
@@ -13,33 +13,33 @@ export const SecurityHeader = () => {
         }}
       />
       
-      <div className="container mx-auto px-6 py-8 relative z-10">
+      <div className="container mx-auto px-8 py-12 relative z-10">
         <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-3">
-              <div className="p-3 bg-primary/20 rounded-xl border border-primary/30">
-                <Shield className="h-8 w-8 text-primary" />
+          <div className="flex items-center space-x-6">
+            <div className="flex items-center space-x-4">
+              <div className="p-4 bg-primary/10 rounded-2xl border border-primary/20 shadow-sm">
+                <Shield className="h-10 w-10 text-primary" />
               </div>
               <div>
-                <h1 className="text-3xl font-bold text-foreground">
+                <h1 className="text-4xl font-bold text-foreground tracking-tight">
                   Snyk Auto Remediation Assistant
                 </h1>
-                <p className="text-muted-foreground mt-1">
+                <p className="text-muted-foreground mt-2 text-lg font-medium">
                   AI-Powered Security Vulnerability Management
                 </p>
               </div>
             </div>
           </div>
           
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-6">
             <div className="text-right">
-              <div className="text-sm text-muted-foreground">Company Logo</div>
-              <div className="w-24 h-12 bg-muted/20 border-2 border-dashed border-muted/40 rounded-lg flex items-center justify-center text-xs text-muted-foreground">
+              <div className="text-sm text-muted-foreground font-medium mb-2">Company Logo</div>
+              <div className="w-28 h-14 bg-gradient-to-br from-secondary to-accent border border-border rounded-xl flex items-center justify-center text-sm text-muted-foreground font-medium shadow-sm">
                 Logo Space
               </div>
             </div>
-            <button className="p-2 hover:bg-muted/20 rounded-lg transition-colors">
-              <Settings className="h-5 w-5 text-muted-foreground" />
+            <button className="p-3 hover:bg-secondary/50 rounded-xl transition-all duration-200 hover:shadow-sm">
+              <Settings className="h-6 w-6 text-muted-foreground" />
             </button>
           </div>
         </div>

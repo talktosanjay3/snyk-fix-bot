@@ -8,55 +8,56 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
+    /* Modern white theme */
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
 
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
 
-    --popover: 240 5% 6%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
 
-    --primary: 200 98% 39%;
+    --primary: 221 83% 53%;
     --primary-foreground: 0 0% 98%;
 
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary: 210 40% 98%;
+    --secondary-foreground: 222.2 84% 4.9%;
 
-    --muted: 240 5% 6%;
-    --muted-foreground: 240 5% 64.9%;
+    --muted: 210 40% 98%;
+    --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222.2 84% 4.9%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 200 98% 39%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221 83% 53%;
 
-    /* Security Dashboard Colors */
-    --critical: 0 84.2% 60.2%;
+    /* Security Dashboard Colors - Modern palette */
+    --critical: 0 84% 60%;
     --high: 25 95% 53%;
-    --medium: 48 96% 53%;
-    --low: 142 76% 36%;
+    --medium: 38 92% 50%;
+    --low: 84 81% 44%;
     
     --resolved: 142 76% 36%;
-    --unresolved: 0 84.2% 60.2%;
-    --found: 48 96% 53%;
+    --unresolved: 0 84% 60%;
+    --found: 221 83% 53%;
 
-    /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(200 98% 39%), hsl(200 98% 49%));
-    --gradient-security: linear-gradient(135deg, hsl(240 10% 3.9%), hsl(240 5% 6%));
-    --gradient-card: linear-gradient(145deg, hsl(240 5% 6%), hsl(240 3.7% 15.9%));
+    /* Modern gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(221 83% 53%), hsl(230 83% 63%));
+    --gradient-security: linear-gradient(135deg, hsl(0 0% 100%), hsl(210 40% 98%));
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%), hsl(210 40% 99%));
 
-    /* Shadows */
-    --shadow-glow: 0 0 20px hsl(200 98% 39% / 0.3);
-    --shadow-card: 0 4px 6px -1px hsl(0 0% 0% / 0.1);
-    --shadow-elevated: 0 10px 25px -3px hsl(0 0% 0% / 0.1);
+    /* Subtle modern shadows */
+    --shadow-glow: 0 0 40px hsl(221 83% 53% / 0.1);
+    --shadow-card: 0 4px 25px hsl(0 0% 0% / 0.05);
+    --shadow-elevated: 0 8px 40px hsl(0 0% 0% / 0.08);
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
 
     --sidebar-background: 0 0% 98%;
 

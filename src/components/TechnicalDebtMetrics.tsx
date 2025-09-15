@@ -26,60 +26,60 @@ export const TechnicalDebtMetrics = ({
   const debtScore = (criticalIssues * 4) + (highIssues * 3) + (mediumIssues * 2) + (lowIssues * 1);
   
   return (
-    <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-      <Card className="bg-gradient-card border-border/50 shadow-card">
-        <CardHeader className="pb-3">
-          <CardTitle className="text-sm font-medium text-muted-foreground flex items-center">
-            <AlertTriangle className="h-4 w-4 mr-2" />
+    <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <Card className="bg-white/90 backdrop-blur-sm border-border/20 shadow-lg rounded-2xl hover:shadow-xl transition-all duration-300">
+        <CardHeader className="pb-4">
+          <CardTitle className="text-sm font-semibold text-muted-foreground flex items-center uppercase tracking-wide">
+            <AlertTriangle className="h-5 w-5 mr-3" />
             Total Issues
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-3xl font-bold text-foreground">{totalIssues}</div>
-          <div className="text-sm text-muted-foreground mt-1">
+          <div className="text-4xl font-bold text-foreground">{totalIssues}</div>
+          <div className="text-sm text-muted-foreground mt-2 font-medium">
             {unresolvedIssues} unresolved
           </div>
         </CardContent>
       </Card>
 
-      <Card className="bg-gradient-card border-border/50 shadow-card">
-        <CardHeader className="pb-3">
-          <CardTitle className="text-sm font-medium text-muted-foreground flex items-center">
-            <CheckCircle className="h-4 w-4 mr-2" />
+      <Card className="bg-white/90 backdrop-blur-sm border-border/20 shadow-lg rounded-2xl hover:shadow-xl transition-all duration-300">
+        <CardHeader className="pb-4">
+          <CardTitle className="text-sm font-semibold text-muted-foreground flex items-center uppercase tracking-wide">
+            <CheckCircle className="h-5 w-5 mr-3" />
             Resolution Rate
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-3xl font-bold text-resolved">{resolutionPercentage.toFixed(1)}%</div>
-          <Progress value={resolutionPercentage} className="mt-2" />
+          <div className="text-4xl font-bold text-resolved">{resolutionPercentage.toFixed(1)}%</div>
+          <Progress value={resolutionPercentage} className="mt-3 h-3 rounded-full" />
         </CardContent>
       </Card>
 
-      <Card className="bg-gradient-card border-border/50 shadow-card">
-        <CardHeader className="pb-3">
-          <CardTitle className="text-sm font-medium text-muted-foreground flex items-center">
-            <TrendingDown className="h-4 w-4 mr-2" />
+      <Card className="bg-white/90 backdrop-blur-sm border-border/20 shadow-lg rounded-2xl hover:shadow-xl transition-all duration-300">
+        <CardHeader className="pb-4">
+          <CardTitle className="text-sm font-semibold text-muted-foreground flex items-center uppercase tracking-wide">
+            <TrendingDown className="h-5 w-5 mr-3" />
             Technical Debt Score
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-3xl font-bold text-unresolved">{debtScore}</div>
-          <div className="text-sm text-muted-foreground mt-1">
+          <div className="text-4xl font-bold text-unresolved">{debtScore}</div>
+          <div className="text-sm text-muted-foreground mt-2 font-medium">
             Weighted by severity
           </div>
         </CardContent>
       </Card>
 
-      <Card className="bg-gradient-card border-border/50 shadow-card">
-        <CardHeader className="pb-3">
-          <CardTitle className="text-sm font-medium text-muted-foreground flex items-center">
-            <Clock className="h-4 w-4 mr-2" />
+      <Card className="bg-white/90 backdrop-blur-sm border-border/20 shadow-lg rounded-2xl hover:shadow-xl transition-all duration-300">
+        <CardHeader className="pb-4">
+          <CardTitle className="text-sm font-semibold text-muted-foreground flex items-center uppercase tracking-wide">
+            <Clock className="h-5 w-5 mr-3" />
             Priority Issues
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-3xl font-bold text-critical">{criticalIssues + highIssues}</div>
-          <div className="text-sm text-muted-foreground mt-1">
+          <div className="text-4xl font-bold text-critical">{criticalIssues + highIssues}</div>
+          <div className="text-sm text-muted-foreground mt-2 font-medium">
             Critical + High severity
           </div>
         </CardContent>
