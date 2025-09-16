@@ -2,20 +2,19 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { 
   ChevronDown, 
   ChevronRight, 
-  AlertTriangle, 
-  Shield, 
-  Bug, 
-  Zap,
-  CheckCircle,
-  Clock,
+  Shield,
+  CheckCircle2,
   AlertCircle,
-  Send
+  Send,
+  Bot
 } from "lucide-react";
+import React from "react";
 
 export interface SecurityIssue {
   id: string;
@@ -36,233 +35,229 @@ interface IssuesTableProps {
   onAIRemediation?: (issueId: string, userInput: string) => void;
 }
 
-const getSeverityIcon = (severity: string) => {
+const getSeverityVariant = (severity: string) => {
   switch (severity) {
-    case 'critical': return <AlertTriangle className="h-4 w-4" />;
-    case 'high': return <Shield className="h-4 w-4" />;
-    case 'medium': return <Bug className="h-4 w-4" />;
-    case 'low': return <Zap className="h-4 w-4" />;
-    default: return <AlertCircle className="h-4 w-4" />;
+    case 'critical': return 'destructive';
+    case 'high': return 'destructive';
+    case 'medium': return 'secondary';
+    case 'low': return 'outline';
+    default: return 'outline';
   }
 };
 
-const getStatusIcon = (status: string) => {
+const getStatusVariant = (status: string) => {
   switch (status) {
-    case 'resolved': return <CheckCircle className="h-4 w-4 text-resolved" />;
-    case 'unresolved': return <AlertCircle className="h-4 w-4 text-unresolved" />;
-    case 'found': return <Clock className="h-4 w-4 text-found" />;
-    default: return <Clock className="h-4 w-4" />;
-  }
-};
-
-const getSeverityColor = (severity: string) => {
-  switch (severity) {
-    case 'critical': return 'critical';
-    case 'high': return 'high';
-    case 'medium': return 'medium';
-    case 'low': return 'low';
-    default: return 'muted';
+    case 'resolved': return 'default';
+    case 'unresolved': return 'destructive';
+    case 'found': return 'secondary';
+    default: return 'outline';
   }
 };
 
 export const IssuesTable = ({ issues, onAIRemediation }: IssuesTableProps) => {
-  const [expandedIssues, setExpandedIssues] = useState<Set<string>>(new Set());
+  const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set());
   const [userInputs, setUserInputs] = useState<Record<string, string>>({});
-  const [filter, setFilter] = useState<'all' | 'critical' | 'high' | 'medium' | 'low'>('all');
+  const [severityFilter, setSeverityFilter] = useState<string>('all');
+  const [statusFilter, setStatusFilter] = useState<string>('all');
 
   const toggleExpanded = (issueId: string) => {
-    const newExpanded = new Set(expandedIssues);
+    const newExpanded = new Set(expandedRows);
     if (newExpanded.has(issueId)) {
       newExpanded.delete(issueId);
     } else {
       newExpanded.add(issueId);
     }
-    setExpandedIssues(newExpanded);
+    setExpandedRows(newExpanded);
   };
 
-  const handleUserInputChange = (issueId: string, value: string) => {
-    setUserInputs(prev => ({ ...prev, [issueId]: value }));
-  };
-
-  const handleAISubmit = (issueId: string) => {
-    const userInput = userInputs[issueId];
-    if (userInput && onAIRemediation) {
+  const handleAIRemediation = (issueId: string, userInput: string) => {
+    if (onAIRemediation) {
       onAIRemediation(issueId, userInput);
       setUserInputs(prev => ({ ...prev, [issueId]: '' }));
     }
   };
 
-  const filteredIssues = filter === 'all' 
-    ? issues 
-    : issues.filter(issue => issue.severity === filter);
+  const filteredIssues = issues.filter(issue => {
+    const severityMatch = severityFilter === 'all' || issue.severity === severityFilter;
+    const statusMatch = statusFilter === 'all' || issue.status === statusFilter;
+    return severityMatch && statusMatch;
+  });
 
   return (
-    <Card className="bg-white/90 backdrop-blur-sm border-border/20 shadow-lg rounded-2xl">
-      <CardHeader className="border-b border-border/10 bg-gradient-to-r from-white to-secondary/10">
-        <div className="flex justify-between items-center">
-          <CardTitle className="text-2xl font-bold text-foreground tracking-tight">
-            Security Issues ({filteredIssues.length})
-          </CardTitle>
-          <div className="flex gap-3">
-            <Button
-              variant={filter === 'all' ? 'default' : 'outline'}
-              size="sm"
-              onClick={() => setFilter('all')}
-              className="rounded-xl font-medium"
-            >
-              All
-            </Button>
-            <Button
-              variant={filter === 'critical' ? 'critical' : 'outline'}
-              size="sm"
-              onClick={() => setFilter('critical')}
-              className="rounded-xl font-medium"
-            >
-              Critical
-            </Button>
-            <Button
-              variant={filter === 'high' ? 'high' : 'outline'}
-              size="sm"
-              onClick={() => setFilter('high')}
-              className="rounded-xl font-medium"
-            >
-              High
-            </Button>
-            <Button
-              variant={filter === 'medium' ? 'medium' : 'outline'}
-              size="sm"
-              onClick={() => setFilter('medium')}
-              className="rounded-xl font-medium"
-            >
-              Medium
-            </Button>
-            <Button
-              variant={filter === 'low' ? 'low' : 'outline'}
-              size="sm"
-              onClick={() => setFilter('low')}
-              className="rounded-xl font-medium"
-            >
-              Low
-            </Button>
+    <Card className="bg-white border-border shadow-card">
+      <CardHeader className="pb-6">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-3">
+            <div className="p-2 bg-gradient-accent rounded-lg">
+              <Shield className="h-5 w-5 text-primary" />
+            </div>
+            <div>
+              <CardTitle className="text-lg font-bold text-foreground">
+                Security Issues
+              </CardTitle>
+              <p className="text-sm text-muted-foreground">
+                {filteredIssues.length} vulnerabilities found
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center space-x-3">
+            <Select value={severityFilter} onValueChange={setSeverityFilter}>
+              <SelectTrigger className="w-36">
+                <SelectValue placeholder="Severity" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Severities</SelectItem>
+                <SelectItem value="critical">Critical</SelectItem>
+                <SelectItem value="high">High</SelectItem>
+                <SelectItem value="medium">Medium</SelectItem>
+                <SelectItem value="low">Low</SelectItem>
+              </SelectContent>
+            </Select>
+            <Select value={statusFilter} onValueChange={setStatusFilter}>
+              <SelectTrigger className="w-32">
+                <SelectValue placeholder="Status" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Status</SelectItem>
+                <SelectItem value="resolved">Resolved</SelectItem>
+                <SelectItem value="unresolved">Unresolved</SelectItem>
+                <SelectItem value="found">Found</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
         </div>
       </CardHeader>
       <CardContent className="p-0">
-        <div className="space-y-0">
-          {filteredIssues.map((issue, index) => (
-            <div key={issue.id} className={`border-b border-border/10 last:border-0 ${index % 2 === 0 ? 'bg-white/50' : 'bg-secondary/20'}`}>
-              <div 
-                className="p-6 hover:bg-secondary/30 cursor-pointer transition-all duration-200"
-                onClick={() => toggleExpanded(issue.id)}
-              >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-6 flex-1">
-                    <div className="flex items-center space-x-3">
-                      {expandedIssues.has(issue.id) ? (
-                        <ChevronDown className="h-5 w-5 text-muted-foreground" />
-                      ) : (
-                        <ChevronRight className="h-5 w-5 text-muted-foreground" />
-                      )}
-                      {getSeverityIcon(issue.severity)}
-                    </div>
-                    
-                    <div className="flex-1">
-                      <div className="flex items-center space-x-4">
-                        <span className="font-semibold text-foreground text-lg">{issue.title}</span>
-                        <Badge variant="outline" className="text-xs font-mono bg-secondary/50">
-                          {issue.id}
-                        </Badge>
-                        <Badge variant="secondary" className="text-xs font-medium">
-                          {issue.type}
-                        </Badge>
-                      </div>
-                    </div>
-                    
-                    <div className="flex items-center space-x-4">
-                      <Badge 
-                        className={`${
-                          issue.severity === 'critical' ? 'bg-critical hover:bg-critical/80' :
-                          issue.severity === 'high' ? 'bg-high hover:bg-high/80' :
-                          issue.severity === 'medium' ? 'bg-medium hover:bg-medium/80' :
-                          issue.severity === 'low' ? 'bg-low hover:bg-low/80' : ''
-                        } text-white border-0 px-3 py-1 font-semibold rounded-xl`}
-                      >
+        <div className="overflow-x-auto">
+          <Table>
+            <TableHeader>
+              <TableRow className="bg-muted border-b">
+                <TableHead className="w-12"></TableHead>
+                <TableHead className="font-semibold text-foreground">Issue ID</TableHead>
+                <TableHead className="font-semibold text-foreground">Title</TableHead>
+                <TableHead className="font-semibold text-foreground">Severity</TableHead>
+                <TableHead className="font-semibold text-foreground">Type</TableHead>
+                <TableHead className="font-semibold text-foreground">Status</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {filteredIssues.map((issue) => (
+                <React.Fragment key={issue.id}>
+                  <TableRow 
+                    className="cursor-pointer hover:bg-muted/50 transition-colors border-b border-border/50"
+                    onClick={() => toggleExpanded(issue.id)}
+                  >
+                    <TableCell>
+                      <Button variant="ghost" size="sm" className="p-1 h-8 w-8">
+                        {expandedRows.has(issue.id) ? (
+                          <ChevronDown className="h-4 w-4" />
+                        ) : (
+                          <ChevronRight className="h-4 w-4" />
+                        )}
+                      </Button>
+                    </TableCell>
+                    <TableCell className="font-mono text-sm font-medium text-primary">
+                      {issue.id}
+                    </TableCell>
+                    <TableCell className="font-medium text-foreground">
+                      {issue.title}
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant={getSeverityVariant(issue.severity)} className="font-medium">
                         {issue.severity.toUpperCase()}
                       </Badge>
-                      <div className="flex items-center space-x-2">
-                        {getStatusIcon(issue.status)}
-                        <span className="text-sm capitalize font-semibold">
-                          {issue.status}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              
-              {expandedIssues.has(issue.id) && (
-                <div className="border-t border-border/10 p-6 bg-gradient-to-r from-secondary/10 to-white">
-                  <div className="space-y-6">
-                    <div>
-                      <h4 className="font-semibold text-foreground mb-3 text-lg">Description</h4>
-                      <p className="text-muted-foreground leading-relaxed">{issue.description}</p>
-                    </div>
-                    
-                    {issue.package && (
-                      <div className="grid grid-cols-2 gap-6">
-                        <div>
-                          <h4 className="font-semibold text-foreground mb-2">Package</h4>
-                          <p className="text-muted-foreground font-mono bg-secondary/30 px-3 py-2 rounded-lg">{issue.package}</p>
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant="outline" className="font-medium border-primary/20 text-primary">
+                        {issue.type}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant={getStatusVariant(issue.status)} className="font-medium">
+                        {issue.status.toUpperCase()}
+                      </Badge>
+                    </TableCell>
+                  </TableRow>
+                  {expandedRows.has(issue.id) && (
+                    <TableRow>
+                      <TableCell colSpan={6} className="bg-gradient-card p-6 border-b border-border/50">
+                        <div className="space-y-6">
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div className="space-y-3">
+                              <h4 className="font-semibold text-foreground flex items-center">
+                                <AlertCircle className="h-4 w-4 mr-2 text-primary" />
+                                Description
+                              </h4>
+                              <p className="text-sm text-muted-foreground leading-relaxed">
+                                {issue.description}
+                              </p>
+                            </div>
+                            <div className="space-y-4">
+                              {issue.cve && (
+                                <div className="flex items-center space-x-2">
+                                  <span className="font-semibold text-foreground text-sm">CVE:</span>
+                                  <span className="text-sm font-mono bg-muted px-2 py-1 rounded">{issue.cve}</span>
+                                </div>
+                              )}
+                              {issue.package && (
+                                <div className="space-y-1">
+                                  <span className="font-semibold text-foreground text-sm">Package:</span>
+                                  <div className="text-sm font-mono bg-muted px-2 py-1 rounded">
+                                    {issue.package}@{issue.version}
+                                    {issue.fixedVersion && (
+                                      <span className="text-primary ml-2">→ {issue.fixedVersion}</span>
+                                    )}
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                          
+                          {issue.remediation && (
+                            <div className="p-4 bg-resolved/5 border border-resolved/20 rounded-lg">
+                              <h4 className="font-semibold text-resolved mb-3 flex items-center">
+                                <CheckCircle2 className="h-4 w-4 mr-2" />
+                                Remediation Applied
+                              </h4>
+                              <p className="text-sm text-muted-foreground">{issue.remediation}</p>
+                            </div>
+                          )}
+                          
+                          {issue.status === 'unresolved' && !issue.remediation && (
+                            <div className="p-4 bg-gradient-accent border border-primary/20 rounded-lg">
+                              <h4 className="font-semibold text-foreground mb-3 flex items-center">
+                                <Bot className="h-4 w-4 mr-2 text-primary" />
+                                AI Remediation Assistant
+                              </h4>
+                              <div className="flex space-x-3">
+                                <Input
+                                  placeholder="Describe your requirements or ask for AI suggestions..."
+                                  value={userInputs[issue.id] || ''}
+                                  onChange={(e) => setUserInputs(prev => ({
+                                    ...prev,
+                                    [issue.id]: e.target.value
+                                  }))}
+                                  className="flex-1"
+                                />
+                                <Button 
+                                  onClick={() => handleAIRemediation(issue.id, userInputs[issue.id] || '')}
+                                  className="bg-primary hover:bg-primary/90 shadow-sm"
+                                  disabled={!userInputs[issue.id]}
+                                >
+                                  <Send className="h-4 w-4 mr-2" />
+                                  Send to AI
+                                </Button>
+                              </div>
+                            </div>
+                          )}
                         </div>
-                        <div>
-                          <h4 className="font-semibold text-foreground mb-2">Current Version</h4>
-                          <p className="text-muted-foreground font-mono bg-secondary/30 px-3 py-2 rounded-lg">{issue.version}</p>
-                        </div>
-                      </div>
-                    )}
-                    
-                    {issue.cve && (
-                      <div>
-                        <h4 className="font-semibold text-foreground mb-2">CVE</h4>
-                        <p className="text-muted-foreground font-mono bg-secondary/30 px-3 py-2 rounded-lg inline-block">{issue.cve}</p>
-                      </div>
-                    )}
-                    
-                    {issue.remediation && (
-                      <div>
-                        <h4 className="font-semibold text-foreground mb-3">Remediation Applied</h4>
-                        <div className="bg-resolved/10 border border-resolved/20 rounded-xl p-4">
-                          <p className="text-foreground leading-relaxed">{issue.remediation}</p>
-                        </div>
-                      </div>
-                    )}
-                    
-                    {issue.status === 'unresolved' && (
-                      <div className="pt-6 border-t border-border/20">
-                        <h4 className="font-semibold text-foreground mb-4 text-lg">AI Remediation Request</h4>
-                        <div className="space-y-4">
-                          <Textarea
-                            placeholder="Describe the remediation action you'd like the AI to perform..."
-                            value={userInputs[issue.id] || ''}
-                            onChange={(e) => handleUserInputChange(issue.id, e.target.value)}
-                            className="min-h-[100px] rounded-xl border-border/30 focus:border-primary/50 bg-white/80"
-                          />
-                          <Button 
-                            onClick={() => handleAISubmit(issue.id)}
-                            disabled={!userInputs[issue.id]?.trim()}
-                            className="bg-primary hover:bg-primary/80 rounded-xl px-6 py-3 font-semibold"
-                          >
-                            <Send className="h-4 w-4 mr-2" />
-                            Request AI Remediation
-                          </Button>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              )}
-            </div>
-          ))}
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </React.Fragment>
+              ))}
+            </TableBody>
+          </Table>
         </div>
       </CardContent>
     </Card>

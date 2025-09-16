@@ -1,28 +1,34 @@
-import { Shield } from "lucide-react";
+import { Shield, Sparkles } from "lucide-react";
 
 export const SecurityFooter = () => {
   return (
-    <footer className="bg-gradient-to-r from-white to-secondary/20 border-t border-border/20 py-8 mt-16">
-      <div className="container mx-auto px-8">
+    <footer className="bg-white border-t border-border mt-16">
+      <div className="container mx-auto px-6 py-8">
         <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <div className="p-2 bg-primary/10 rounded-lg">
-              <Shield className="h-5 w-5 text-primary" />
+          <div className="flex items-center space-x-3">
+            <div className="p-2 bg-gradient-accent rounded-lg">
+              <Shield className="h-4 w-4 text-primary" />
             </div>
             <div>
-              <span className="text-lg font-semibold text-foreground">
-                Snyk Auto Remediation Assistant
-              </span>
-              <div className="text-sm text-muted-foreground">
-                Powered by AI • Security Automation
+              <div className="flex items-center space-x-1">
+                <span className="font-semibold text-foreground">
+                  Snyk Auto Remediation Assistant
+                </span>
+                <Sparkles className="h-3 w-3 text-primary" />
               </div>
+              <p className="text-xs text-muted-foreground">
+                AI-Powered Security Automation Platform
+              </p>
             </div>
           </div>
           
-          <div className="flex items-center space-x-8 text-sm text-muted-foreground font-medium">
-            <span className="px-3 py-1 bg-secondary/50 rounded-lg">Hackathon Project 2024</span>
-            <span className="px-3 py-1 bg-secondary/50 rounded-lg">AI-Powered</span>
-            <span className="px-3 py-1 bg-secondary/50 rounded-lg">Security Focus</span>
+          <div className="flex items-center space-x-4">
+            <span className="px-3 py-1 bg-gradient-accent text-primary text-xs font-medium rounded-full">
+              Hackathon 2024
+            </span>
+            <span className="px-3 py-1 bg-gradient-accent text-primary text-xs font-medium rounded-full">
+              AI-Enhanced
+            </span>
           </div>
         </div>
       </div>

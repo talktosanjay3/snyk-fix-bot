@@ -1,5 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { Building2, Database } from "lucide-react";
+import { Building2, Database, Lock } from "lucide-react";
 
 interface AssetInfoProps {
   assetId: string;
@@ -8,38 +8,48 @@ interface AssetInfoProps {
 
 export const AssetInfo = ({ assetId, applicationName }: AssetInfoProps) => {
   return (
-    <Card className="bg-white/90 backdrop-blur-sm border-border/20 shadow-lg rounded-2xl hover:shadow-xl transition-all duration-300">
-      <CardContent className="p-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <Card className="bg-white border-border shadow-card hover:shadow-elevated transition-all duration-300 group">
+        <CardContent className="p-6">
           <div className="flex items-center space-x-4">
-            <div className="p-3 bg-primary/10 rounded-xl border border-primary/20">
-              <Database className="h-6 w-6 text-primary" />
+            <div className="relative">
+              <div className="absolute inset-0 bg-primary/10 blur-lg rounded-full group-hover:bg-primary/20 transition-colors"></div>
+              <div className="relative p-3 bg-gradient-accent rounded-xl">
+                <Database className="h-5 w-5 text-primary" />
+              </div>
             </div>
-            <div>
-              <label className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
+            <div className="flex-1">
+              <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider mb-1">
                 Asset ID
-              </label>
-              <div className="text-xl font-bold text-foreground mt-1 font-mono">
+              </p>
+              <p className="text-lg font-bold text-foreground font-mono">
                 {assetId}
-              </div>
+              </p>
             </div>
           </div>
-          
+        </CardContent>
+      </Card>
+      
+      <Card className="bg-white border-border shadow-card hover:shadow-elevated transition-all duration-300 group">
+        <CardContent className="p-6">
           <div className="flex items-center space-x-4">
-            <div className="p-3 bg-primary/10 rounded-xl border border-primary/20">
-              <Building2 className="h-6 w-6 text-primary" />
-            </div>
-            <div>
-              <label className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
-                Application Name
-              </label>
-              <div className="text-xl font-bold text-foreground mt-1">
-                {applicationName}
+            <div className="relative">
+              <div className="absolute inset-0 bg-primary/10 blur-lg rounded-full group-hover:bg-primary/20 transition-colors"></div>
+              <div className="relative p-3 bg-gradient-accent rounded-xl">
+                <Building2 className="h-5 w-5 text-primary" />
               </div>
             </div>
+            <div className="flex-1">
+              <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider mb-1">
+                Application Name
+              </p>
+              <p className="text-lg font-bold text-foreground">
+                {applicationName}
+              </p>
+            </div>
           </div>
-        </div>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+    </div>
   );
 };
