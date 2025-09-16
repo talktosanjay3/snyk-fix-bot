@@ -1,6 +1,6 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { TrendingDown, AlertTriangle, CheckCircle, Clock } from "lucide-react";
+import { TrendingUp, Shield, CheckCircle2, AlertCircle } from "lucide-react";
 
 interface TechnicalDebtMetricsProps {
   totalIssues: number;
@@ -19,68 +19,86 @@ export const TechnicalDebtMetrics = ({
   mediumIssues,
   lowIssues
 }: TechnicalDebtMetricsProps) => {
-  const resolutionPercentage = totalIssues > 0 ? (resolvedIssues / totalIssues) * 100 : 0;
+  const resolutionRate = totalIssues > 0 ? Math.round((resolvedIssues / totalIssues) * 100) : 0;
   const unresolvedIssues = totalIssues - resolvedIssues;
-  
-  // Calculate technical debt score (higher severity = more debt)
-  const debtScore = (criticalIssues * 4) + (highIssues * 3) + (mediumIssues * 2) + (lowIssues * 1);
-  
+  const debtScore = Math.max(0, 100 - (criticalIssues * 25 + highIssues * 15 + mediumIssues * 8 + lowIssues * 3));
+
   return (
-    <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-      <Card className="bg-gradient-card border-border/50 shadow-card">
-        <CardHeader className="pb-3">
-          <CardTitle className="text-sm font-medium text-muted-foreground flex items-center">
-            <AlertTriangle className="h-4 w-4 mr-2" />
-            Total Issues
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="text-3xl font-bold text-foreground">{totalIssues}</div>
-          <div className="text-sm text-muted-foreground mt-1">
-            {unresolvedIssues} unresolved
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <Card className="bg-white border-border shadow-card hover:shadow-elevated transition-all duration-300 group overflow-hidden">
+        <CardContent className="p-6 relative">
+          <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-primary opacity-5 rounded-full -translate-y-10 translate-x-10"></div>
+          <div className="flex items-center justify-between mb-4">
+            <div className="p-2 bg-gradient-accent rounded-lg">
+              <TrendingUp className="h-4 w-4 text-primary" />
+            </div>
+            <span className="text-xs text-muted-foreground font-medium">Health Score</span>
+          </div>
+          <div className="space-y-2">
+            <div className="text-2xl font-bold text-foreground">{debtScore}/100</div>
+            <Progress value={debtScore} className="h-1.5" />
+            <p className="text-xs text-muted-foreground">
+              {debtScore >= 80 ? "Excellent Security" : debtScore >= 60 ? "Good" : "Needs Attention"}
+            </p>
           </div>
         </CardContent>
       </Card>
 
-      <Card className="bg-gradient-card border-border/50 shadow-card">
-        <CardHeader className="pb-3">
-          <CardTitle className="text-sm font-medium text-muted-foreground flex items-center">
-            <CheckCircle className="h-4 w-4 mr-2" />
-            Resolution Rate
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="text-3xl font-bold text-resolved">{resolutionPercentage.toFixed(1)}%</div>
-          <Progress value={resolutionPercentage} className="mt-2" />
-        </CardContent>
-      </Card>
-
-      <Card className="bg-gradient-card border-border/50 shadow-card">
-        <CardHeader className="pb-3">
-          <CardTitle className="text-sm font-medium text-muted-foreground flex items-center">
-            <TrendingDown className="h-4 w-4 mr-2" />
-            Technical Debt Score
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="text-3xl font-bold text-unresolved">{debtScore}</div>
-          <div className="text-sm text-muted-foreground mt-1">
-            Weighted by severity
+      <Card className="bg-white border-border shadow-card hover:shadow-elevated transition-all duration-300 group overflow-hidden">
+        <CardContent className="p-6 relative">
+          <div className="absolute top-0 right-0 w-20 h-20 bg-resolved/10 rounded-full -translate-y-10 translate-x-10"></div>
+          <div className="flex items-center justify-between mb-4">
+            <div className="p-2 bg-resolved/10 rounded-lg">
+              <CheckCircle2 className="h-4 w-4 text-resolved" />
+            </div>
+            <span className="text-xs text-muted-foreground font-medium">Resolved</span>
+          </div>
+          <div className="space-y-2">
+            <div className="text-2xl font-bold text-foreground">{resolutionRate}%</div>
+            <Progress value={resolutionRate} className="h-1.5" />
+            <p className="text-xs text-muted-foreground">
+              {resolvedIssues} of {totalIssues} issues fixed
+            </p>
           </div>
         </CardContent>
       </Card>
 
-      <Card className="bg-gradient-card border-border/50 shadow-card">
-        <CardHeader className="pb-3">
-          <CardTitle className="text-sm font-medium text-muted-foreground flex items-center">
-            <Clock className="h-4 w-4 mr-2" />
-            Priority Issues
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="text-3xl font-bold text-critical">{criticalIssues + highIssues}</div>
-          <div className="text-sm text-muted-foreground mt-1">
-            Critical + High severity
+      <Card className="bg-white border-border shadow-card hover:shadow-elevated transition-all duration-300 group overflow-hidden">
+        <CardContent className="p-6 relative">
+          <div className="absolute top-0 right-0 w-20 h-20 bg-critical/10 rounded-full -translate-y-10 translate-x-10"></div>
+          <div className="flex items-center justify-between mb-4">
+            <div className="p-2 bg-critical/10 rounded-lg">
+              <AlertCircle className="h-4 w-4 text-critical" />
+            </div>
+            <span className="text-xs text-muted-foreground font-medium">Critical</span>
+          </div>
+          <div className="space-y-2">
+            <div className="text-2xl font-bold text-critical">{criticalIssues}</div>
+            <div className="flex items-center space-x-2 text-xs">
+              <span className="text-high">{highIssues} High</span>
+              <span className="text-muted-foreground">•</span>
+              <span className="text-medium">{mediumIssues} Med</span>
+              <span className="text-muted-foreground">•</span>
+              <span className="text-low">{lowIssues} Low</span>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card className="bg-white border-border shadow-card hover:shadow-elevated transition-all duration-300 group overflow-hidden">
+        <CardContent className="p-6 relative">
+          <div className="absolute top-0 right-0 w-20 h-20 bg-primary/10 rounded-full -translate-y-10 translate-x-10"></div>
+          <div className="flex items-center justify-between mb-4">
+            <div className="p-2 bg-primary/10 rounded-lg">
+              <Shield className="h-4 w-4 text-primary" />
+            </div>
+            <span className="text-xs text-muted-foreground font-medium">Pending</span>
+          </div>
+          <div className="space-y-2">
+            <div className="text-2xl font-bold text-primary">{unresolvedIssues}</div>
+            <p className="text-xs text-muted-foreground">
+              Awaiting remediation
+            </p>
           </div>
         </CardContent>
       </Card>

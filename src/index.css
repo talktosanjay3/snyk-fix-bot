@@ -8,55 +8,58 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
+    /* Ultra modern white theme */
+    --background: 0 0% 99%;
+    --foreground: 220 13% 18%;
 
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
+    --card: 0 0% 100%;
+    --card-foreground: 220 13% 18%;
 
-    --popover: 240 5% 6%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 13% 18%;
 
-    --primary: 200 98% 39%;
-    --primary-foreground: 0 0% 98%;
+    --primary: 262 83% 58%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary: 220 13% 95%;
+    --secondary-foreground: 220 13% 18%;
 
-    --muted: 240 5% 6%;
-    --muted-foreground: 240 5% 64.9%;
+    --muted: 220 13% 96%;
+    --muted-foreground: 220 9% 46%;
 
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
+    --accent: 262 83% 96%;
+    --accent-foreground: 262 83% 58%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive: 0 93% 73%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 200 98% 39%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 262 83% 58%;
 
-    /* Security Dashboard Colors */
-    --critical: 0 84.2% 60.2%;
-    --high: 25 95% 53%;
-    --medium: 48 96% 53%;
-    --low: 142 76% 36%;
+    /* Security Dashboard Colors - Premium palette */
+    --critical: 0 93% 73%;
+    --high: 24 100% 66%;
+    --medium: 38 92% 68%;
+    --low: 142 69% 58%;
     
-    --resolved: 142 76% 36%;
-    --unresolved: 0 84.2% 60.2%;
-    --found: 48 96% 53%;
+    --resolved: 142 69% 58%;
+    --unresolved: 0 93% 73%;
+    --found: 262 83% 58%;
 
-    /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(200 98% 39%), hsl(200 98% 49%));
-    --gradient-security: linear-gradient(135deg, hsl(240 10% 3.9%), hsl(240 5% 6%));
-    --gradient-card: linear-gradient(145deg, hsl(240 5% 6%), hsl(240 3.7% 15.9%));
+    /* Premium gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(262 83% 58%), hsl(280 83% 68%));
+    --gradient-hero: linear-gradient(135deg, hsl(0 0% 100%), hsl(262 83% 98%));
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%), hsl(220 13% 98%));
+    --gradient-accent: linear-gradient(135deg, hsl(262 83% 96%), hsl(280 83% 98%));
 
-    /* Shadows */
-    --shadow-glow: 0 0 20px hsl(200 98% 39% / 0.3);
-    --shadow-card: 0 4px 6px -1px hsl(0 0% 0% / 0.1);
-    --shadow-elevated: 0 10px 25px -3px hsl(0 0% 0% / 0.1);
+    /* Elegant shadows */
+    --shadow-glow: 0 0 50px hsl(262 83% 58% / 0.15);
+    --shadow-card: 0 1px 3px hsl(0 0% 0% / 0.05), 0 20px 25px hsl(0 0% 0% / 0.04);
+    --shadow-elevated: 0 10px 25px hsl(0 0% 0% / 0.08), 0 4px 10px hsl(0 0% 0% / 0.04);
+    --shadow-float: 0 25px 50px hsl(262 83% 58% / 0.08);
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
 
     --sidebar-background: 0 0% 98%;
 
